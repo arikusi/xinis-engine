@@ -1,0 +1,543 @@
+# XiNiS Engine — Full API Documentation
+
+XiNiS Engine is a free, professional-grade astrology calculation API powered by Swiss Ephemeris. It provides arc-second precision for natal chart calculations, transits, secondary progressions, and solar/lunar returns across 10 house systems.
+
+Version: 1.0.0
+License: GPL v2.0
+Base URL: https://api.xinis.space
+
+---
+
+## Installation & Setup
+
+### Requirements
+- Python 3.11+
+- pip
+
+### Install
+```bash
+pip install -r requirements.txt
+```
+
+### Run
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+### Docker
+```bash
+docker build -t xinis-engine .
+docker run -p 8000:8000 xinis-engine
+```
+
+---
+
+## API Endpoints
+
+### POST /api/natal-chart
+
+Calculate a natal (birth) chart. Accepts local datetime — timezone is resolved automatically from coordinates.
+
+**Request:**
+```json
+{
+  "local_datetime": "1990-06-15T14:30:00",
+  "latitude": 41.0082,
+  "longitude": 28.9784,
+  "location_name": "Istanbul, Turkey",
+  "house_system": "Placidus"
+}
+```
+
+**Fields:**
+- `local_datetime` (required): Local birth datetime in ISO 8601 format (naive, no timezone)
+- `latitude` (required): Birth location latitude (-90 to 90)
+- `longitude` (required): Birth location longitude (-180 to 180)
+- `location_name` (optional): Human-readable location name
+- `house_system` (optional): House system name. Default: "Placidus". Pass "all" for multi-house calculation.
+
+**Response:**
+```json
+{
+  "birth_data": {
+    "datetime_utc": "1990-06-15T11:30:00",
+    "local_datetime": "1990-06-15T14:30:00",
+    "latitude": 41.0082,
+    "longitude": 28.9784,
+    "location_name": "Istanbul, Turkey",
+    "timezone_str": "Europe/Istanbul"
+  },
+  "planets": {
+    "Sun": {
+      "longitude": 84.2345,
+      "latitude": 0.0001,
+      "distance": 1.0156,
+      "speed": 0.9534,
+      "sign": "Gemini",
+      "degree": 24.2345,
+      "degree_formatted": "24°14'04\"",
+      "house": 10,
+      "retrograde": false
+    },
+    "Moon": { ... },
+    "Mercury": { ... }
+  },
+  "houses": {
+    "system": "Placidus",
+    "cusps": {
+      "1": { "longitude": 210.5, "sign": "Libra", "degree": 0.5, "degree_formatted": "0°30'00\"" },
+      "2": { ... }
+    },
+    "angles": {
+      "ascendant": 210.5,
+      "midheaven": 120.3,
+      "descendant": 30.5,
+      "imum_coeli": 300.3
+    }
+  },
+  "aspects": [
+    {
+      "planet1": "Sun",
+      "planet2": "Moon",
+      "aspect": "Trine",
+      "angle": 120.0,
+      "orb": 1.23,
+      "strength": 84.6,
+      "nature": "harmonious",
+      "applying": true
+    }
+  ],
+  "patterns": [
+    {
+      "name": "Grand Trine",
+      "planets": ["Sun", "Moon", "Jupiter"],
+      "element": "Fire"
+    }
+  ]
+}
+```
+
+**curl example:**
+```bash
+curl -X POST https://api.xinis.space/api/natal-chart \
+  -H "Content-Type: application/json" \
+  -d '{
+    "local_datetime": "1990-06-15T14:30:00",
+    "latitude": 41.0082,
+    "longitude": 28.9784,
+    "location_name": "Istanbul, Turkey",
+    "house_system": "Placidus"
+  }'
+```
+
+---
+
+### POST /api/transits
+
+Calculate current planetary transits to a natal chart.
+
+**Request:**
+```json
+{
+  "natal_chart": { "birth_data": { ... }, "planets": { ... }, "houses": { ... }, "aspects": [...] },
+  "transit_datetime": "2025-01-01T12:00:00",
+  "transit_latitude": 41.0082,
+  "transit_longitude": 28.9784,
+  "house_system": "Placidus"
+}
+```
+
+**Fields:**
+- `natal_chart` (required): Full natal chart object (from /api/natal-chart response)
+- `transit_datetime` (required): Transit datetime in UTC
+- `transit_latitude` (optional): Transit location latitude
+- `transit_longitude` (optional): Transit location longitude
+- `house_system` (optional): House system. Default: same as natal chart
+
+**Response:**
+```json
+{
+  "natal_chart": { ... },
+  "transit_datetime": "2025-01-01T12:00:00",
+  "transit_planets": {
+    "Sun": { "longitude": 280.5, "sign": "Capricorn", ... },
+    "Moon": { ... }
+  },
+  "transit_houses": { ... },
+  "transit_aspects": [
+    {
+      "transit_planet": "Saturn",
+      "natal_planet": "Sun",
+      "aspect": "Square",
+      "orb": 2.1,
+      "applying": true
+    }
+  ]
+}
+```
+
+**curl example:**
+```bash
+curl -X POST https://api.xinis.space/api/transits \
+  -H "Content-Type: application/json" \
+  -d '{
+    "natal_chart": { ... },
+    "transit_datetime": "2025-01-01T12:00:00",
+    "house_system": "Placidus"
+  }'
+```
+
+---
+
+### POST /api/progressions
+
+Calculate secondary progressions (1 day = 1 year method).
+
+**Request:**
+```json
+{
+  "natal_chart": { ... },
+  "progression_date": "2025-06-15T00:00:00",
+  "house_system": "Placidus"
+}
+```
+
+**Fields:**
+- `natal_chart` (required): Full natal chart object
+- `progression_date` (required): Date to progress to (UTC)
+- `house_system` (optional): House system
+
+**Response:**
+```json
+{
+  "natal_chart": { ... },
+  "progression_date": "2025-06-15T00:00:00",
+  "progressed_planets": {
+    "Sun": { "longitude": 118.5, "sign": "Cancer", ... },
+    "Moon": { ... }
+  },
+  "progressed_houses": { ... },
+  "progressed_aspects": [ ... ]
+}
+```
+
+**curl example:**
+```bash
+curl -X POST https://api.xinis.space/api/progressions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "natal_chart": { ... },
+    "progression_date": "2025-06-15T00:00:00"
+  }'
+```
+
+---
+
+### POST /api/solar-return
+
+Calculate the Solar Return chart for a given year (moment when transiting Sun returns to natal Sun position).
+
+**Request:**
+```json
+{
+  "natal_chart": { ... },
+  "return_year": 2025,
+  "return_location_latitude": 41.0082,
+  "return_location_longitude": 28.9784,
+  "location_name": "Istanbul, Turkey",
+  "house_system": "Placidus"
+}
+```
+
+**Fields:**
+- `natal_chart` (required): Full natal chart object
+- `return_year` (required): Year for solar return
+- `return_location_latitude` (optional): Location for return chart houses
+- `return_location_longitude` (optional): Location for return chart houses
+- `location_name` (optional): Location name
+- `house_system` (optional): House system
+
+**curl example:**
+```bash
+curl -X POST https://api.xinis.space/api/solar-return \
+  -H "Content-Type: application/json" \
+  -d '{
+    "natal_chart": { ... },
+    "return_year": 2025,
+    "return_location_latitude": 41.0082,
+    "return_location_longitude": 28.9784
+  }'
+```
+
+---
+
+### POST /api/lunar-return
+
+Calculate the Lunar Return chart near a given date (moment when transiting Moon returns to natal Moon position).
+
+**Request:**
+```json
+{
+  "natal_chart": { ... },
+  "return_date": "2025-01-15T00:00:00",
+  "return_location_latitude": 41.0082,
+  "return_location_longitude": 28.9784,
+  "location_name": "Istanbul, Turkey",
+  "house_system": "Placidus"
+}
+```
+
+**Fields:**
+- `natal_chart` (required): Full natal chart object
+- `return_date` (required): Approximate date for lunar return (UTC)
+- `return_location_latitude` (optional): Location latitude
+- `return_location_longitude` (optional): Location longitude
+- `location_name` (optional): Location name
+- `house_system` (optional): House system
+
+---
+
+### POST /api/fixed-stars
+
+Calculate fixed star positions and conjunctions with natal planets.
+
+**Request:**
+```json
+{
+  "local_datetime": "1990-06-15T14:30:00",
+  "latitude": 41.0082,
+  "longitude": 28.9784,
+  "location_name": "Istanbul, Turkey"
+}
+```
+
+**Response:**
+```json
+{
+  "stars": {
+    "Regulus": { "longitude": 149.83, "sign": "Virgo", "magnitude": 1.35 },
+    "Spica": { ... },
+    "Aldebaran": { ... }
+  },
+  "clusters": { ... },
+  "conjunctions": [
+    {
+      "star": "Regulus",
+      "planet": "Sun",
+      "orb": 0.45
+    }
+  ],
+  "calculation_date": "1990-06-15T11:30:00",
+  "timezone_str": "Europe/Istanbul"
+}
+```
+
+---
+
+### POST /api/export
+
+Export chart data in various formats.
+
+**Request:**
+```json
+{
+  "chart": { ... },
+  "format": "markdown"
+}
+```
+
+**Fields:**
+- `chart` (required): Any chart object (natal, transit, progressed, or solar return)
+- `format` (required): One of `"json"`, `"markdown"`, `"ai_prompt"`
+
+**Response:**
+```json
+{
+  "data": "# Natal Chart\n\n**Birth Data**: ...",
+  "format": "markdown"
+}
+```
+
+---
+
+### POST /api/export-fixed-stars
+
+Export fixed stars data in various formats.
+
+**Request:**
+```json
+{
+  "fixed_stars_data": { ... },
+  "format": "markdown"
+}
+```
+
+---
+
+### GET /api/config
+
+Returns the current configuration including available celestial bodies, aspects, and house systems.
+
+**Response:**
+```json
+{
+  "celestial_bodies": {
+    "major_planets": ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"],
+    "nodes": ["True_Node", "Mean_Node"],
+    "asteroids": ["Chiron", "Ceres", "Pallas", "Juno", "Vesta", "Lilith", "True_Lilith"],
+    "extended_asteroids": ["Eros", "Psyche", "Hygiea", "Eris", "Sedna", "Nessus", "Pholus"],
+    "calculated_points": ["Part_of_Fortune", "Vertex"]
+  },
+  "house_systems": { ... },
+  "aspects": {
+    "major": ["Conjunction", "Opposition", "Trine", "Square", "Sextile"],
+    "minor": ["Quincunx", "Semisquare", "Sesquiquadrate", "Semisextile", "Quintile", "Biquintile"]
+  }
+}
+```
+
+**curl example:**
+```bash
+curl https://api.xinis.space/api/config
+```
+
+---
+
+### GET /api/health
+
+Health check with service status.
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "service": "xinis",
+  "version": "1.0.0",
+  "checks": {
+    "ephemeris": true,
+    "config": true
+  }
+}
+```
+
+---
+
+## Supported House Systems
+
+| Name | Code | Description |
+|------|------|-------------|
+| Placidus | P | Most common system. Time-based house division. |
+| Whole_Sign | W | Traditional Hellenistic system. Each sign equals one house. |
+| Koch | K | Birth-place focused system. Geocentric calculation. |
+| Equal | E | Each house is 30 degrees starting from the Ascendant. |
+| Campanus | C | 13th century system based on the prime vertical. |
+| Regiomontanus | R | 15th century medieval system dividing the celestial equator. |
+| Porphyry | O | Simplest quadrant system. Equal trisection between angles. |
+| Morinus | M | Equatorial system by Jean-Baptiste Morin. |
+| Topocentric | T | Modern Page-Polich system using geodetic coordinates. |
+| Alcabitius | B | 11th century Arabic astrology system based on ascension time. |
+
+Pass `"all"` as house_system to get calculations for all 10 systems simultaneously.
+
+---
+
+## Supported Celestial Bodies
+
+### Major Planets
+Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
+
+### Lunar Nodes
+True_Node (True North Node / Rahu), Mean_Node
+
+### Asteroids
+Chiron, Ceres, Pallas, Juno, Vesta, Lilith (Mean), True_Lilith
+
+### Extended Asteroids
+Eros, Psyche, Hygiea, Eris, Sedna, Nessus, Pholus
+
+### Calculated Points
+Part_of_Fortune, Vertex
+
+South_Node is derived from True_Node (opposite point).
+
+---
+
+## Supported Aspects
+
+### Major Aspects
+| Aspect | Angle | Default Orb | Nature |
+|--------|-------|-------------|--------|
+| Conjunction | 0° | 8° | Neutral |
+| Opposition | 180° | 8° | Challenging |
+| Trine | 120° | 8° | Harmonious |
+| Square | 90° | 8° | Challenging |
+| Sextile | 60° | 6° | Harmonious |
+
+### Minor Aspects
+| Aspect | Angle | Default Orb | Nature |
+|--------|-------|-------------|--------|
+| Quincunx | 150° | 3° | Adjustment |
+| Semisquare | 45° | 2° | Friction |
+| Sesquiquadrate | 135° | 2° | Friction |
+| Semisextile | 30° | 2° | Connection |
+| Quintile | 72° | 2° | Creative |
+| Biquintile | 144° | 2° | Creative |
+
+Orb multipliers per planet: Sun 1.2x, Moon 1.2x, Jupiter 1.1x, outer planets 0.9x.
+
+---
+
+## Aspect Patterns
+
+| Pattern | Description |
+|---------|-------------|
+| Grand Trine | Three planets in mutual trines (120°-120°-120°) |
+| T-Square | Two planets in opposition with a third squaring both |
+| Grand Cross | Four planets in mutual squares and oppositions |
+| Yod | Two planets in sextile, both quincunx a third (Finger of God) |
+| Kite | Grand Trine with one planet opposing a trine planet |
+| Stellium | Three or more planets in the same sign or house |
+| Mystic Rectangle | Four planets forming two trines, two sextiles, and two oppositions |
+
+---
+
+## Timezone Handling
+
+XiNiS automatically resolves timezone from birth coordinates. You provide a naive local datetime (no timezone info) and the latitude/longitude — the API determines the correct timezone, applies historical DST rules, and converts to UTC internally.
+
+No manual timezone input is needed.
+
+---
+
+## Error Handling
+
+All errors return JSON with this structure:
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An unexpected error occurred"
+  }
+}
+```
+
+HTTP status codes:
+- `200`: Success
+- `422`: Validation error (invalid input)
+- `500`: Internal server error
+
+---
+
+## Tech Stack
+
+- **FastAPI** (Python 3.11+) — High-performance async web framework
+- **Swiss Ephemeris** via pyswisseph — Professional astronomical calculations
+- **Pydantic** — Data validation and serialization
+- **TimezoneFinder** — Coordinate-based timezone resolution
+- **Docker** — Container deployment support
+
+---
+
+## License
+
+GPL v2.0

@@ -1,0 +1,40 @@
+# XiNiS Engine
+
+> Professional astrology calculation API powered by Swiss Ephemeris. Natal charts, transits, progressions, and solar/lunar returns with arc-second precision.
+
+## Documentation
+
+- [Full API Documentation](llms-full.txt): Complete endpoint reference with request/response examples
+- [Interactive API Docs](https://api.xinis.space/docs): Swagger UI
+- [Source Code](https://github.com/arikusi/xinis-engine): GitHub
+
+## API Endpoints
+
+Base URL: https://api.xinis.space
+
+- `POST /api/natal-chart` -- Natal chart with automatic timezone resolution
+- `POST /api/transits` -- Transits to a natal chart
+- `POST /api/progressions` -- Secondary progressions (1 day = 1 year)
+- `POST /api/solar-return` -- Solar return chart for a given year
+- `POST /api/lunar-return` -- Lunar return chart near a given date
+- `POST /api/fixed-stars` -- Fixed stars positions and planet conjunctions
+- `POST /api/export` -- Export chart as JSON, Markdown, or AI prompt
+- `POST /api/export-fixed-stars` -- Export fixed stars data
+- `GET /api/config` -- Available celestial bodies, aspects, and house systems
+- `GET /api/health` -- Service health check
+
+## Capabilities
+
+- 10 house systems: Placidus, Whole Sign, Koch, Equal, Campanus, Regiomontanus, Porphyry, Morinus, Topocentric, Alcabitius
+- 28+ celestial bodies: planets, nodes, asteroids, extended objects, calculated points
+- 11 aspect types: Conjunction, Opposition, Trine, Square, Sextile, Quincunx, Semisquare, Sesquiquadrate, Semisextile, Quintile, Biquintile
+- 7 aspect patterns: Grand Trine, T-Square, Grand Cross, Yod, Kite, Stellium, Mystic Rectangle
+- Automatic timezone resolution from coordinates with historical DST support
+
+## Version
+
+1.0.0
+
+## License
+
+GPL v2.0

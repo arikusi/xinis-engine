@@ -1,0 +1,391 @@
+# XiNiS Configuration
+# Backend uses English-only. All translations live in frontend i18n files.
+
+# ============================================================================
+# CELESTIAL BODIES
+# ============================================================================
+
+celestial_bodies:
+  major_planets:
+    - Sun
+    - Moon
+    - Mercury
+    - Venus
+    - Mars
+    - Jupiter
+    - Saturn
+    - Uranus
+    - Neptune
+    - Pluto
+
+  nodes:
+    - True_Node
+    - Mean_Node
+
+  asteroids:
+    - Chiron
+    - Ceres
+    - Pallas
+    - Juno
+    - Vesta
+    - Lilith
+    - True_Lilith
+
+  extended_asteroids:
+    - Eros
+    - Psyche
+    - Hygiea
+    - Eris
+    - Sedna
+    - Nessus
+    - Pholus
+
+  calculated_points:
+    - Part_of_Fortune
+    - Vertex
+
+  fixed_stars:
+    enabled: false
+    stars:
+      - Regulus
+      - Spica
+      - Aldebaran
+      - Antares
+      - Fomalhaut
+      - Algol
+      - Sirius
+
+# ============================================================================
+# ASPECTS
+# ============================================================================
+
+aspects:
+  major:
+    Conjunction:
+      angle: 0
+      orb: 8
+      symbol: "☌"
+      nature: "neutral"
+
+    Opposition:
+      angle: 180
+      orb: 8
+      symbol: "☍"
+      nature: "challenging"
+
+    Trine:
+      angle: 120
+      orb: 8
+      symbol: "△"
+      nature: "harmonious"
+
+    Square:
+      angle: 90
+      orb: 8
+      symbol: "□"
+      nature: "challenging"
+
+    Sextile:
+      angle: 60
+      orb: 6
+      symbol: "⚹"
+      nature: "harmonious"
+
+  minor:
+    Quincunx:
+      angle: 150
+      orb: 3
+      symbol: "⚻"
+      nature: "adjustment"
+
+    Semisquare:
+      angle: 45
+      orb: 2
+      symbol: "∠"
+      nature: "friction"
+
+    Sesquiquadrate:
+      angle: 135
+      orb: 2
+      symbol: "⚼"
+      nature: "friction"
+
+    Semisextile:
+      angle: 30
+      orb: 2
+      symbol: "⚺"
+      nature: "connection"
+
+    Quintile:
+      angle: 72
+      orb: 2
+      symbol: "Q"
+      nature: "creative"
+
+    Biquintile:
+      angle: 144
+      orb: 2
+      symbol: "bQ"
+      nature: "creative"
+
+  orb_multipliers:
+    Sun: 1.2
+    Moon: 1.2
+    Mercury: 1.0
+    Venus: 1.0
+    Mars: 1.0
+    Jupiter: 1.1
+    Saturn: 1.0
+    Uranus: 0.9
+    Neptune: 0.9
+    Pluto: 0.9
+    Chiron: 0.8
+    default: 1.0
+
+# ============================================================================
+# HOUSE SYSTEMS
+# ============================================================================
+
+house_systems:
+  default: "Placidus"
+  support_all: true
+
+  available:
+    Placidus:
+      code: "P"
+      description: "Most common system. Time-based house division."
+
+    Whole_Sign:
+      code: "W"
+      description: "Traditional Hellenistic system. Each sign equals one house."
+
+    Koch:
+      code: "K"
+      description: "Birth-place focused system. Geocentric calculation."
+
+    Equal:
+      code: "E"
+      description: "Each house is 30 degrees starting from the Ascendant."
+
+    Campanus:
+      code: "C"
+      description: "13th century system based on the prime vertical."
+
+    Regiomontanus:
+      code: "R"
+      description: "15th century medieval system dividing the celestial equator."
+
+    Porphyry:
+      code: "O"
+      description: "Simplest quadrant system. Equal trisection between angles."
+
+    Morinus:
+      code: "M"
+      description: "Equatorial system by Jean-Baptiste Morin."
+
+    Topocentric:
+      code: "T"
+      description: "Modern Page-Polich system using geodetic coordinates."
+
+    Alcabitius:
+      code: "B"
+      description: "11th century Arabic astrology system based on ascension time."
+
+# ============================================================================
+# CALCULATION SETTINGS
+# ============================================================================
+
+calculation:
+  precision: 4
+  include_speed: true
+  include_distance: true
+  include_latitude: true
+  aspect_precision: 2
+  calculate_vertex: true
+  calculate_equatorial_ascendant: true
+
+# ============================================================================
+# ZODIAC
+# ============================================================================
+
+zodiac:
+  type: "tropical"
+
+  signs:
+    - name: "Aries"
+      symbol: "♈"
+      element: "Fire"
+      modality: "Cardinal"
+      ruler: "Mars"
+
+    - name: "Taurus"
+      symbol: "♉"
+      element: "Earth"
+      modality: "Fixed"
+      ruler: "Venus"
+
+    - name: "Gemini"
+      symbol: "♊"
+      element: "Air"
+      modality: "Mutable"
+      ruler: "Mercury"
+
+    - name: "Cancer"
+      symbol: "♋"
+      element: "Water"
+      modality: "Cardinal"
+      ruler: "Moon"
+
+    - name: "Leo"
+      symbol: "♌"
+      element: "Fire"
+      modality: "Fixed"
+      ruler: "Sun"
+
+    - name: "Virgo"
+      symbol: "♍"
+      element: "Earth"
+      modality: "Mutable"
+      ruler: "Mercury"
+
+    - name: "Libra"
+      symbol: "♎"
+      element: "Air"
+      modality: "Cardinal"
+      ruler: "Venus"
+
+    - name: "Scorpio"
+      symbol: "♏"
+      element: "Water"
+      modality: "Fixed"
+      ruler: "Pluto"
+      traditional_ruler: "Mars"
+
+    - name: "Sagittarius"
+      symbol: "♐"
+      element: "Fire"
+      modality: "Mutable"
+      ruler: "Jupiter"
+
+    - name: "Capricorn"
+      symbol: "♑"
+      element: "Earth"
+      modality: "Cardinal"
+      ruler: "Saturn"
+
+    - name: "Aquarius"
+      symbol: "♒"
+      element: "Air"
+      modality: "Fixed"
+      ruler: "Uranus"
+      traditional_ruler: "Saturn"
+
+    - name: "Pisces"
+      symbol: "♓"
+      element: "Water"
+      modality: "Mutable"
+      ruler: "Neptune"
+      traditional_ruler: "Jupiter"
+
+# ============================================================================
+# ASPECT PATTERNS
+# ============================================================================
+
+patterns:
+  grand_trine:
+    aspects: ["Trine", "Trine", "Trine"]
+    orb_tolerance: 3
+    min_strength: 70
+
+  t_square:
+    aspects: ["Square", "Square", "Opposition"]
+    orb_tolerance: 3
+    min_strength: 70
+
+  grand_cross:
+    aspects: ["Square", "Square", "Square", "Square"]
+    orb_tolerance: 3
+    min_strength: 70
+
+  yod:
+    aspects: ["Quincunx", "Quincunx", "Sextile"]
+    orb_tolerance: 2
+    min_strength: 70
+
+  kite:
+    base_pattern: "grand_trine"
+    additional_aspects: ["Opposition"]
+    orb_tolerance: 3
+    min_strength: 70
+
+  stellium:
+    min_planets: 3
+    max_orb: 10
+    check_house: true
+    check_sign: true
+
+  mystic_rectangle:
+    aspects: ["Trine", "Sextile", "Opposition", "Trine", "Sextile", "Opposition"]
+    orb_tolerance: 3
+    min_strength: 70
+
+# ============================================================================
+# EXPORT SETTINGS
+# ============================================================================
+
+export:
+  markdown:
+    include_patterns: true
+    include_aspects: true
+    include_house_positions: true
+    ai_optimized: true
+
+  json:
+    pretty_print: true
+    indent: 2
+    include_metadata: true
+
+  coordinate_precision: 4
+  orb_precision: 2
+
+# ============================================================================
+# TRANSITS & PROGRESSIONS
+# ============================================================================
+
+transits:
+  default_period_days: 30
+  detect_applying: true
+  detect_separating: true
+  exact_threshold: 0.5
+  retrograde_threshold: 0.0
+
+progressions:
+  type: "secondary"
+  include_progressed_moon: true
+  include_progressed_ascendant: true
+
+returns:
+  solar_return:
+    precision: 0.01
+
+  lunar_return:
+    precision: 0.1
+
+# ============================================================================
+# PERFORMANCE
+# ============================================================================
+
+performance:
+  cache_ephemeris: true
+  parallel_calculation: false
+  max_celestial_bodies: 50
+
+# ============================================================================
+# API SETTINGS
+# ============================================================================
+
+api:
+  title: "XiNiS Astrology API"
+  version: "1.0.0"
+  host: "0.0.0.0"
+  port: 8000
