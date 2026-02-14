@@ -12,16 +12,16 @@
 
 Base URL: https://api.xinis.space
 
-- `POST /api/natal-chart` -- Natal chart with automatic timezone resolution
-- `POST /api/transits` -- Transits to a natal chart
-- `POST /api/progressions` -- Secondary progressions (1 day = 1 year)
-- `POST /api/solar-return` -- Solar return chart for a given year
-- `POST /api/lunar-return` -- Lunar return chart near a given date
-- `POST /api/fixed-stars` -- Fixed stars positions and planet conjunctions
-- `POST /api/export` -- Export chart as JSON, Markdown, or AI prompt
-- `POST /api/export-fixed-stars` -- Export fixed stars data
-- `GET /api/config` -- Available celestial bodies, aspects, and house systems
-- `GET /api/health` -- Service health check
+- `POST /natal-chart` -- Natal chart with automatic timezone resolution
+- `POST /transits` -- Transits to a natal chart
+- `POST /progressions` -- Secondary progressions (1 day = 1 year)
+- `POST /solar-return` -- Solar return chart for a given year
+- `POST /lunar-return` -- Lunar return chart near a given date
+- `POST /fixed-stars` -- Fixed stars positions and planet conjunctions
+- `POST /export` -- Export chart as JSON, Markdown, or AI prompt
+- `POST /export-fixed-stars` -- Export fixed stars data
+- `GET /config` -- Available celestial bodies, aspects, and house systems
+- `GET /health` -- Service health check
 
 ## Capabilities
 

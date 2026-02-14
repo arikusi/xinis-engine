@@ -87,5 +87,5 @@ def root():
         "name": "XiNiS Astrology API",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/api/health",
+        "health": "/health",
     }

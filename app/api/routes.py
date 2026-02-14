@@ -19,7 +19,7 @@ from app.services import natal_chart, transits, export, progressions, returns
 
 logger = logging.getLogger("xinis.api")
 
-router = APIRouter(prefix="/api", tags=["astrology"])
+router = APIRouter(tags=["astrology"])
 
 
 # --- Request models ---

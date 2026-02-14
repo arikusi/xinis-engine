@@ -32,20 +32,20 @@ docker compose up -d
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/natal-chart` | Natal chart (accepts local datetime) |
-| POST | `/api/transits` | Transits to natal chart |
-| POST | `/api/progressions` | Secondary progressions |
-| POST | `/api/solar-return` | Solar return chart |
-| POST | `/api/lunar-return` | Lunar return chart |
-| POST | `/api/fixed-stars` | Fixed stars and conjunctions |
-| POST | `/api/export` | Export chart (JSON/Markdown/AI) |
-| GET | `/api/config` | Available configuration |
-| GET | `/api/health` | Health check |
+| POST | `/natal-chart` | Natal chart (accepts local datetime) |
+| POST | `/transits` | Transits to natal chart |
+| POST | `/progressions` | Secondary progressions |
+| POST | `/solar-return` | Solar return chart |
+| POST | `/lunar-return` | Lunar return chart |
+| POST | `/fixed-stars` | Fixed stars and conjunctions |
+| POST | `/export` | Export chart (JSON/Markdown/AI) |
+| GET | `/config` | Available configuration |
+| GET | `/health` | Health check |
 
 ### Example
 
 ```bash
-curl -X POST http://localhost:8000/api/natal-chart \
+curl -X POST http://localhost:8000/natal-chart \
   -H "Content-Type: application/json" \
   -d '{
     "local_datetime": "1990-06-15T14:30:00",

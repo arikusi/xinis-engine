@@ -34,7 +34,7 @@ docker run -p 8000:8000 xinis-engine
 
 ## API Endpoints
 
-### POST /api/natal-chart
+### POST /natal-chart
 
 Calculate a natal (birth) chart. Accepts local datetime — timezone is resolved automatically from coordinates.
 
@@ -119,7 +119,7 @@ Calculate a natal (birth) chart. Accepts local datetime — timezone is resolved
 
 **curl example:**
 ```bash
-curl -X POST https://api.xinis.space/api/natal-chart \
+curl -X POST https://api.xinis.space/natal-chart \
   -H "Content-Type: application/json" \
   -d '{
     "local_datetime": "1990-06-15T14:30:00",
@@ -132,7 +132,7 @@ curl -X POST https://api.xinis.space/api/natal-chart \
 
 ---
 
-### POST /api/transits
+### POST /transits
 
 Calculate current planetary transits to a natal chart.
 
@@ -148,7 +148,7 @@ Calculate current planetary transits to a natal chart.
 ```
 
 **Fields:**
-- `natal_chart` (required): Full natal chart object (from /api/natal-chart response)
+- `natal_chart` (required): Full natal chart object (from /natal-chart response)
 - `transit_datetime` (required): Transit datetime in UTC
 - `transit_latitude` (optional): Transit location latitude
 - `transit_longitude` (optional): Transit location longitude
@@ -178,7 +178,7 @@ Calculate current planetary transits to a natal chart.
 
 **curl example:**
 ```bash
-curl -X POST https://api.xinis.space/api/transits \
+curl -X POST https://api.xinis.space/transits \
   -H "Content-Type: application/json" \
   -d '{
     "natal_chart": { ... },
@@ -189,7 +189,7 @@ curl -X POST https://api.xinis.space/api/transits \
 
 ---
 
-### POST /api/progressions
+### POST /progressions
 
 Calculate secondary progressions (1 day = 1 year method).
 
@@ -223,7 +223,7 @@ Calculate secondary progressions (1 day = 1 year method).
 
 **curl example:**
 ```bash
-curl -X POST https://api.xinis.space/api/progressions \
+curl -X POST https://api.xinis.space/progressions \
   -H "Content-Type: application/json" \
   -d '{
     "natal_chart": { ... },
@@ -233,7 +233,7 @@ curl -X POST https://api.xinis.space/api/progressions \
 
 ---
 
-### POST /api/solar-return
+### POST /solar-return
 
 Calculate the Solar Return chart for a given year (moment when transiting Sun returns to natal Sun position).
 
@@ -259,7 +259,7 @@ Calculate the Solar Return chart for a given year (moment when transiting Sun re
 
 **curl example:**
 ```bash
-curl -X POST https://api.xinis.space/api/solar-return \
+curl -X POST https://api.xinis.space/solar-return \
   -H "Content-Type: application/json" \
   -d '{
     "natal_chart": { ... },
@@ -271,7 +271,7 @@ curl -X POST https://api.xinis.space/api/solar-return \
 
 ---
 
-### POST /api/lunar-return
+### POST /lunar-return
 
 Calculate the Lunar Return chart near a given date (moment when transiting Moon returns to natal Moon position).
 
@@ -297,7 +297,7 @@ Calculate the Lunar Return chart near a given date (moment when transiting Moon 
 
 ---
 
-### POST /api/fixed-stars
+### POST /fixed-stars
 
 Calculate fixed star positions and conjunctions with natal planets.
 
@@ -334,7 +334,7 @@ Calculate fixed star positions and conjunctions with natal planets.
 
 ---
 
-### POST /api/export
+### POST /export
 
 Export chart data in various formats.
 
@@ -360,7 +360,7 @@ Export chart data in various formats.
 
 ---
 
-### POST /api/export-fixed-stars
+### POST /export-fixed-stars
 
 Export fixed stars data in various formats.
 
@@ -374,7 +374,7 @@ Export fixed stars data in various formats.
 
 ---
 
-### GET /api/config
+### GET /config
 
 Returns the current configuration including available celestial bodies, aspects, and house systems.
 
@@ -398,12 +398,12 @@ Returns the current configuration including available celestial bodies, aspects,
 
 **curl example:**
 ```bash
-curl https://api.xinis.space/api/config
+curl https://api.xinis.space/config
 ```
 
 ---
 
-### GET /api/health
+### GET /health
 
 Health check with service status.
 
