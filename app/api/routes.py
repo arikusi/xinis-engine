@@ -15,6 +15,7 @@ from app.models.chart import (
     ProgressedChart, SolarReturnChart
 )
 from app.core.timezone import local_to_utc
+from app.core.config_loader import config_loader
 from app.services import natal_chart, transits, export, progressions, returns
 
 logger = logging.getLogger("xinis.api")
